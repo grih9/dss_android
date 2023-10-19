@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">DSS Android</string>
+    <string name="add_candidate">Add candidate</string>
+    <string name="add_parameter">Add parameter</string>
+    <string name="show_result">Show result</string>
+    <string name="parameter_to_add">Parameter</string>
+    <string name="candidate_to_add">Candidate</string>
+    <string name="coefficient_to_add">Coefficient</string>
+    <string name="priority_direction">Priority</string>
 </resources>
