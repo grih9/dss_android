@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">DSS Android</string>
+    <string name="add_candidate">Add candidate</string>
+    <string name="add_parameter">Add parameter</string>
+    <string name="show_result">Show result</string>
+    <string name="parameter_to_add">Parameter</string>
+    <string name="candidate_to_add">Candidate</string>
+    <string name="coefficient_to_add">Coefficient</string>
+    <string name="priority_direction">Priority</string>
+    <string name="next_button">Next</string>
+    <string name="previous_button">Previous</string>
+    <string name="common_result">Common</string>
+    <string name="k_max_result">K-max mechanism</string>
+    <string name="competitive_result">Competitive</string>
+    <string name="dominante_result">Dominante</string>
+    <string name="blocking_result">Blocking</string>
+</resources>
