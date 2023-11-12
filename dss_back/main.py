@@ -16,6 +16,7 @@ from core.mechanisms import (
     calculate_tournament,
     calculate_tournament_results_by_variant
 )
+from models.result_models import TournamentResult, KMaxResult, DominanceResult, LockResult
 
 
 # async def runner():
@@ -83,61 +84,66 @@ def main():
     runner()
 
 if __name__ == '__main__':
-    main()
+     main()
 
-# from typing import Union
-# from models.raw_data import RawDataframe, RawDataframeModel
-# from fastapi import FastAPI
-#
-# app = FastAPI()
-#
-#
-# @app.get("/")
-# def read_root():
-#     return {"info": "This is DSS backend made with FastAPI"}
-#
-#
-# @app.get("/help")
-# def get_routes():
-#     return {
-#         "calculate_tournament": "POST /mechanism/tournament",
-#         "calculate_kmax": "POST /mechanism/kmax",
-#         "calculate_kmax_optimal": "POST /mechanism/kmax_optimal",
-#         "calculate_locking": "POST /mechanism/locking",
-#         "calculate_dominance": "POST /mechanism/dominance"
-#     }
-#
-#
-# @app.post("/mechanism/tournament")
-# def calculate_tournament_f(*, raw_data: RawDataframeModel):
-#     df_binary = calculate_binary_relations(raw_data)
-#     df_tournament = calculate_tournament(df_binary)
-#     return {"Hello": "World"}
-#
-#
-# @app.post("/mechanism/kmax")
-# def calculate_kmax(*, raw_data: RawDataframeModel):
-#     df_binary = calculate_binary_relations(raw_data)
-#     df_kmax = calculate_k_max_options(df_binary)
-#     return {"Hello": "World"}
-#
-#
-# @app.post("/mechanism/kmax_optimal")
-# def calculate_kmax_optimal(*, raw_data: RawDataframeModel):
-#     df_binary = calculate_binary_relations(raw_data)
-#     df_tournament = calculate_tournament(df_binary)
-#     return {"Hello": "World"}
-#
-#
-# @app.post("/mechanism/locking")
-# def calculate_locking(*, raw_data: RawDataframeModel):
-#     df_binary = calculate_binary_relations(raw_data)
-#     df_lock = calculate_lock(df_binary)
-#     return {"Hello": "World"}
-#
-#
-# @app.get("/mechanism/dominance")
-# def calculate_dominance_f(*, raw_data: RawDataframeModel):
-#     df_binary = calculate_binary_relations(raw_data)
-#     df_tournament = calculate_dominance(df_binary)
-#     return {"Hello": "World"}
+from typing import Union
+from models.raw_data import RawDataframe, RawDataframeModel
+from fastapi import FastAPI
+
+app = FastAPI()
+
+
+@app.get("/")
+def read_root():
+    return {"info": "This is DSS backend made with FastAPI"}
+
+
+@app.get("/help")
+def get_routes():
+    return {
+        "calculate_tournament": "POST /mechanism/tournament",
+        "calculate_kmax": "POST /mechanism/kmax",
+        "calculate_kmax_optimal": "POST /mechanism/kmax_optimal",
+        "calculate_locking": "POST /mechanism/locking",
+        "calculate_dominance": "POST /mechanism/dominance"
+    }
+
+
+@app.post("/mechanism/tournament")
+def calculate_tournament_api(*, raw_data: RawDataframeModel):
+    df_binary = calculate_binary_relations(raw_data)
+    df_tournament = calculate_tournament(df_binary)
+    df_tournament_by_variant = calculate_tournament_results_by_variant(df_tournament)
+    return TournamentResult(summary_result=df_tournament, result_by_variant=df_tournament_by_variant)
+
+
+@app.post("/mechanism/kmax")
+def calculate_kmax(*, raw_data: RawDataframeModel):
+    df_binary = calculate_binary_relations(raw_data)
+    df_kmax = calculate_k_max_options(df_binary)
+    df_kmax_by_variant = calculate_k_max_results_by_variant(df_kmax)
+    return KMaxResult(summary_result=df_kmax, result_by_variant=df_kmax_by_variant)
+
+
+@app.post("/mechanism/kmax_optimal")
+def calculate_kmax_optimal(*, raw_data: RawDataframeModel):
+    df_binary = calculate_binary_relations(raw_data)
+    df_kmax = calculate_k_max_options(df_binary)
+    df_kmax_by_variant = calculate_k_max_results_by_variant(df_kmax)
+    return KMaxResult(summary_result=df_kmax, result_by_variant=df_kmax_by_variant)
+
+
+@app.post("/mechanism/locking")
+def calculate_locking(*, raw_data: RawDataframeModel):
+    df_binary = calculate_binary_relations(raw_data)
+    df_lock = calculate_lock(df_binary)
+    df_lock_by_variant = calculate_lock_results_by_variant(df_lock)
+    return LockResult(summary_result=df_lock, result_by_variant=df_lock_by_variant)
+
+
+@app.get("/mechanism/dominance")
+def calculate_dominance_f(*, raw_data: RawDataframeModel):
+    df_binary = calculate_binary_relations(raw_data)
+    df_dominance = calculate_dominance(df_binary)
+    df_dominance_by_variant = calculate_lock_results_by_variant(df_lock)
+    return DominanceResult(summary_result=df_dominance, result_by_variant=df_dominance_by_variant)
