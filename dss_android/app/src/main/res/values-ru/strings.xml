@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">"Андроид СППР "</string>
+    <string name="add_candidate">Добавить кандидата</string>
+    <string name="add_parameter">Добавить параметр</string>
+    <string name="show_result">Показать результат</string>
+    <string name="parameter_to_add">Параметр</string>
+    <string name="candidate_to_add">Кандидат</string>
+    <string name="coefficient_to_add">Коэфицииент</string>
+    <string name="priority_direction">Приоритет</string>
+    <string name="next_button">Следующий</string>
+    <string name="previous_button">Предыдущий</string>
+    <string name="common_result">Общие</string>
+    <string name="k_max_result">K-max механизм</string>
+    <string name="competitive_result">Турнирный механизм</string>
+    <string name="dominante_result">Доминирующий механизм</string>
+    <string name="blocking_result">Блокирующий механизм</string>
+</resources>
