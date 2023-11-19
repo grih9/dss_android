@@ -3,8 +3,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -20,9 +18,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import com.grih9.dssandroid.api.sendHelpRequest
 import com.grih9.dssandroid.ui.theme.DSSAndroidTheme
 
 
@@ -46,7 +46,7 @@ fun DSSAndroidApp2() {
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier) {
     var screen by remember { mutableStateOf("NewDssScreen") }
-
+    val ctx = LocalContext.current
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -69,14 +69,27 @@ fun HomeScreen(modifier: Modifier = Modifier) {
             )
         }
     ) { innerPadding ->
+//        var data by remember { mutableStateOf(
+//            ProfileModel(variants = listOf(),
+//                preferences = listOf(),
+//                matrix = listOf(listOf()),
+//                weightCoefficients = listOf()
+//            ))
+//        }
+//        var res by remember { mutableStateOf(InfoResultModel("")) }
         when (screen) {
             "NewDssScreen" -> NewDssScreen(
-                screenNameChange = { screen = "ResultsScreen" },
+                screenNameChange = {
+                    val data2 = sendHelpRequest(ctx)
+                    screen = "ResultsScreen"
+                    println(data2)
+                },
                 modifier = modifier.padding(innerPadding)
             )
 
             "ResultsScreen" -> ResultsScreen(
-                screenNameChange = { screen = "NewDssScreen" },
+                screenNameChange = {
+                    screen = "NewDssScreen" },
                 modifier = modifier.padding(innerPadding)
             )
 

@@ -11,6 +11,7 @@
         android:roundIcon="@drawable/dss_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.DSSAndroid"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"
