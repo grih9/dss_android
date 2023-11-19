@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -33,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -71,8 +74,10 @@ fun NewDssScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AddParameterComposable()
-        Spacer(modifier = Modifier.height(50.dp))
+        Spacer(modifier = Modifier.height(30.dp))
         AddCandidateComposable()
+        Spacer(modifier = Modifier.height(30.dp))
+        AddMatrixRowComposable()
     }
     Row(
         modifier = modifier
@@ -104,6 +109,19 @@ private fun AddCandidate(input: String, onValueChange: (String) -> Unit, modifie
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+private fun AddMatrixRow(input: String, onValueChange: (String) -> Unit, modifier: Modifier = Modifier) {
+    TextField(
+        value = input,
+        onValueChange = onValueChange,
+        label = { Text(stringResource(id = R.string.matrix_row)) },
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        modifier = modifier.padding(top = 3.dp)
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
 private fun AddParameter(
     input: String,
     onValueChange: (String) -> Unit,
@@ -128,6 +146,29 @@ private fun AddParameter(
 //    }
 }
 
+@Composable
+fun AddMatrixRowComposable(modifier: Modifier = Modifier) {
+    var matrix_row by remember { mutableStateOf("") }
+    AddMatrixRow(
+        input = matrix_row,
+        onValueChange = { matrix_row = it },
+        modifier = modifier.fillMaxWidth()
+    )
+
+    var text by remember { mutableStateOf("") }
+    Text(
+        text = text
+    )
+    Button(
+        onClick = {
+            text += "|\n$matrix_row"
+            matrix_row = ""
+        }
+    ) {
+        Text(text = stringResource(id = R.string.add_matrix_row))
+    }
+}
+
 
 @Composable
 fun AddCandidateComposable(modifier: Modifier = Modifier) {
@@ -145,7 +186,9 @@ fun AddCandidateComposable(modifier: Modifier = Modifier) {
         text = text
     )
     Button(
-        onClick = { text += "|\n$candidate" },
+        onClick = {
+            text += "|\n$candidate"
+            candidate = "" },
         colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.tertiary)
     ) {
         Text(text = stringResource(id = R.string.add_candidate))
@@ -156,7 +199,8 @@ fun AddCandidateComposable(modifier: Modifier = Modifier) {
 fun AddParameterComposable(modifier: Modifier = Modifier) {
     var inputParameter by remember { mutableStateOf("") }
     var inputCoefficient by remember { mutableStateOf("0.3") }
-    var inputPriority by remember { mutableStateOf("1") }
+    var inputPriority by remember { mutableStateOf(true) }
+//    var textPriority by remember { mutableStateOf("T") }
     Row(horizontalArrangement = Arrangement.SpaceBetween) {
         AddParameter(
             input = inputParameter,
@@ -174,10 +218,50 @@ fun AddParameterComposable(modifier: Modifier = Modifier) {
             modifier = modifier.weight(1f)
         )
         Spacer(Modifier.width(5.dp))
-        RadioButton(selected =false, onClick = { inputPriority = "0" })
-        RadioButton(selected =true, onClick = {
-            inputPriority = "1"
-        })
+        val radioOptions = listOf("True", "False")
+
+        var selectedItem by remember { mutableStateOf(radioOptions[0]) }
+        inputPriority = selectedItem.toBoolean()
+        Row(modifier = Modifier.selectableGroup()) {
+            radioOptions.forEach { label ->
+
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .selectable(
+                            selected = (selectedItem == label),
+                            onClick = { selectedItem = label },
+                            role = Role.RadioButton
+                        )
+                        .padding(horizontal = 3.dp),
+                ) {
+                    Text(text = label)
+                    RadioButton(
+                        selected = (selectedItem == label),
+                        onClick = null
+                    )
+
+                }
+            }
+//            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+//                Text(text = "True")
+//                RadioButton(
+//                    // inside this method we are
+//                    // adding selected with a option.
+//                    selected = (textPriority == "T"),
+//                    onClick = {
+//                    }
+//                )
+//            }
+//            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+//                //            RadioButton(selected =false, onClick = { inputPriority = "0" })
+//                Text(text = "False")
+//                RadioButton(selected = true, onClick = {
+//                    inputPriority = "1"
+//                })
+//            }
+        }
+
 //        AddParameter(
 //            input = inputPriority,
 //            onValueChange = ,
@@ -187,15 +271,16 @@ fun AddParameterComposable(modifier: Modifier = Modifier) {
 //        )
     }
     val inputCoefficientNumber = inputCoefficient.toDoubleOrNull() ?: 0.0
-    val inputPriorityNumber = inputPriority.toInt()
+//    val inputPriorityNumber = inputPriority.toInt()
     var text by remember {
         mutableStateOf(
             "$inputParameter " +
                     "$inputCoefficientNumber " +
-                    "$inputPriorityNumber")
+                    inputPriority
+        )
     }
     Text(text = text)
-    Button(onClick = { text += "|\n $inputParameter $inputCoefficientNumber $inputPriorityNumber" }) {
+    Button(onClick = { text += "|\n $inputParameter $inputCoefficientNumber $inputPriority" }) {
         Text(
             text = stringResource(id = R.string.add_parameter)
         )
