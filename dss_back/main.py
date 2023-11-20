@@ -31,7 +31,6 @@ def runner():
         weight_coefficients_path="./input_data/test_data/weight_coefficients.csv"
     )
 
-
     df_binary = calculate_binary_relations(df)
 
     # df_k_max = await calculate_k_max_options(df_binary)
