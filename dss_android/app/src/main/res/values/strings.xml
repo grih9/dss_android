@@ -6,7 +6,7 @@
     <string name="parameter_to_add">Preference</string>
     <string name="candidate_to_add">Variant</string>
     <string name="coefficient_to_add">Weight coefficient</string>
-    <string name="priority_direction">Choise function</string>
+    <string name="priority_direction">Choice function</string>
     <string name="next_button">Next</string>
     <string name="previous_button">Previous</string>
     <string name="common_result">Common</string>
@@ -16,4 +16,5 @@
     <string name="blocking_result">Lock</string>
     <string name="add_matrix_row">Enter values</string>
     <string name="matrix_row">Matrix row</string>
+    <string name="back_button">Return</string>
 </resources>

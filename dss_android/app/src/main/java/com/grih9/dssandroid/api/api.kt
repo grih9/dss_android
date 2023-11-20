@@ -15,12 +15,16 @@ data class RawDataModel(
     var variants: List<String>,
     var preferences: List<String>,
     var matrix: List<List<Float>>,
-    var weightCoefficients: List<Float>,
-    var choise_functions: List<Boolean>
+    var weight_coefficients: List<Float>,
+    var choice_function: List<Boolean>
 )
 
 data class InfoResultModel(
     var info: String
+)
+
+data class ResponseModel(
+    var data: List<String>
 )
 
 fun sendHelpRequest(ctx: Context) {
@@ -36,13 +40,156 @@ fun sendHelpRequest(ctx: Context) {
     call!!.enqueue(object: Callback<InfoResultModel?> {
         override fun onResponse(call: Call<InfoResultModel?>, response: Response<InfoResultModel?>) {
             if(response.isSuccessful) {
-                Toast.makeText(ctx, "Data posted to API" + response.body().toString(), Toast.LENGTH_SHORT).show()
-                Log.d("Main", "success!" + response.body().toString())
+                Toast.makeText(ctx, "Data get from API " + (response.body()?.info ?: ""), Toast.LENGTH_SHORT).show()
+                Log.d("Main", "success!" + response.body()?.info)
+            }else {
+                Toast.makeText(ctx, "Failed to get data" + response.code(), Toast.LENGTH_SHORT).show()
             }
+            return
         }
 
         override fun onFailure(call: Call<InfoResultModel?>, t: Throwable) {
             Log.e("Main", "Failed mate " + t.message.toString())
+            Toast.makeText(ctx, "Failed to get data", Toast.LENGTH_SHORT).show()
+            return
         }
     })
+//    Toast.makeText(ctx, "Failed to get data. Unreachable host", Toast.LENGTH_SHORT).show()
+}
+
+fun sendTournamentRequest(
+    ctx: Context,
+    variants: MutableState<List<String>>,
+    preferences: MutableState<List<String>>,
+    matrix: MutableState<List<List<Float>>>,
+    weightCoefficients: MutableState<List<Float>>,
+    choiceFunction: MutableState<List<Boolean>>,
+    result: MutableState<String>
+) {
+    val retrofit = Retrofit.Builder()
+        .baseUrl("http://192.168.1.107:8081")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    val dataModel = RawDataModel(
+        variants = variants.value,
+        preferences = preferences.value,
+        matrix = matrix.value,
+        weight_coefficients = weightCoefficients.value,
+        choice_function = choiceFunction.value)
+    val api = retrofit.create(MechanismApi::class.java)
+
+    val call: Call<RawDataModel?>? = api.calculateTournament(dataModel);
+
+    call!!.enqueue(object: Callback<RawDataModel?> {
+        override fun onResponse(call: Call<RawDataModel?>, response: Response<RawDataModel?>) {
+            if(response.isSuccessful) {
+                Toast.makeText(ctx, "Data get from API ", Toast.LENGTH_SHORT).show()
+//                Log.d("Main", "success!" + response.body()?.info)
+//                val model: RawDataModel? = response.body()!!.info
+//                result.value = resp
+                result.value = "123"
+            } else {
+                Toast.makeText(ctx, "Failed to get data" + response.code(), Toast.LENGTH_SHORT).show()
+            }
+            return
+        }
+
+        override fun onFailure(call: Call<RawDataModel?>, t: Throwable) {
+            Log.e("Main", "Failed mate " + t.message.toString())
+            Toast.makeText(ctx, "Failed to get data", Toast.LENGTH_SHORT).show()
+            return
+        }
+    })
+//    Toast.makeText(ctx, "Failed to get data. Unreachable host", Toast.LENGTH_SHORT).show()
+}
+
+fun sendLockRequest(ctx: Context,
+                          variants: MutableState<List<String>>,
+                          preferences: MutableState<List<String>>,
+                          matrix: MutableState<List<List<Float>>>,
+                          weightCoefficients: MutableState<List<Float>>,
+                          choiceFunction: MutableState<List<Boolean>>,
+                          result: MutableState<String>) {
+    val retrofit = Retrofit.Builder()
+        .baseUrl("http://192.168.1.107:8081")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    val dataModel = RawDataModel(
+        variants = variants.value,
+        preferences = preferences.value,
+        matrix = matrix.value,
+        weight_coefficients = weightCoefficients.value,
+        choice_function = choiceFunction.value)
+    val api = retrofit.create(MechanismApi::class.java)
+
+    val call: Call<RawDataModel?>? = api.calculateLocking(dataModel);
+
+    call!!.enqueue(object: Callback<RawDataModel?> {
+        override fun onResponse(call: Call<RawDataModel?>, response: Response<RawDataModel?>) {
+            if(response.isSuccessful) {
+                Toast.makeText(ctx, "Data get from API ", Toast.LENGTH_SHORT).show()
+//                Log.d("Main", "success!" + response.body()?.info)
+//                val model: RawDataModel? = response.body()!!.info
+//                result.value = resp
+                result.value = "123"
+            } else {
+                Toast.makeText(ctx, "Failed to get data" + response.code(), Toast.LENGTH_SHORT).show()
+            }
+            return
+        }
+
+        override fun onFailure(call: Call<RawDataModel?>, t: Throwable) {
+            Log.e("Main", "Failed mate " + t.message.toString())
+            Toast.makeText(ctx, "Failed to get data", Toast.LENGTH_SHORT).show()
+            return
+        }
+    })
+//    Toast.makeText(ctx, "Failed to get data. Unreachable host", Toast.LENGTH_SHORT).show()
+}
+
+fun sendDominanceRequest(ctx: Context,
+                         variants: MutableState<List<String>>,
+                         preferences: MutableState<List<String>>,
+                         matrix: MutableState<List<List<Float>>>,
+                         weightCoefficients: MutableState<List<Float>>,
+                         choiceFunction: MutableState<List<Boolean>>,
+                         result: MutableState<String>) {
+    val retrofit = Retrofit.Builder()
+        .baseUrl("http://192.168.1.107:8081")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    val dataModel = RawDataModel(
+        variants = variants.value,
+        preferences = preferences.value,
+        matrix = matrix.value,
+        weight_coefficients = weightCoefficients.value,
+        choice_function = choiceFunction.value)
+    val api = retrofit.create(MechanismApi::class.java)
+
+    val call: Call<RawDataModel?>? = api.calculateDominance(dataModel);
+
+    call!!.enqueue(object: Callback<RawDataModel?> {
+        override fun onResponse(call: Call<RawDataModel?>, response: Response<RawDataModel?>) {
+            if(response.isSuccessful) {
+                Toast.makeText(ctx, "Data get from API ", Toast.LENGTH_SHORT).show()
+//                Log.d("Main", "success!" + response.body()?.info)
+//                val model: RawDataModel? = response.body()!!.info
+//                result.value = resp
+                result.value = "123"
+            } else {
+                Toast.makeText(ctx, "Failed to get data" + response.code(), Toast.LENGTH_SHORT).show()
+            }
+            return
+        }
+
+        override fun onFailure(call: Call<RawDataModel?>, t: Throwable) {
+            Log.e("Main", "Failed mate " + t.message.toString())
+            Toast.makeText(ctx, "Failed to get data", Toast.LENGTH_SHORT).show()
+            return
+        }
+    })
+//    Toast.makeText(ctx, "Failed to get data. Unreachable host", Toast.LENGTH_SHORT).show()
 }
