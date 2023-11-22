@@ -2,7 +2,10 @@ package com.example.apiexample.api
 
 
 import com.grih9.dssandroid.api.InfoResultModel
+import com.grih9.dssandroid.api.KMaxResultModel
 import com.grih9.dssandroid.api.RawDataModel
+import com.grih9.dssandroid.api.ResponseResultModel
+import com.grih9.dssandroid.api.SummaryModel
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
@@ -24,24 +27,30 @@ interface MechanismApi {
         "Accept: application/json"
     )
     @POST("mechanism/tournament")
-    fun calculateTournament(@Body data: RawDataModel): Call<RawDataModel?>?
+    fun calculateTournament(@Body data: RawDataModel): Call<ResponseResultModel?>?
 
     @Headers(
         "Accept: application/json"
     )
     @POST("mechanism/locking")
-    fun calculateLocking(@Body data: RawDataModel): Call<RawDataModel?>?
+    fun calculateLocking(@Body data: RawDataModel): Call<ResponseResultModel?>?
 
     @Headers(
         "Accept: application/json"
     )
     @POST("mechanism/dominance")
-    fun calculateDominance(@Body data: RawDataModel): Call<RawDataModel?>?
+    fun calculateDominance(@Body data: RawDataModel): Call<ResponseResultModel?>?
 
     @Headers(
         "Accept: application/json"
     )
     @POST("mechanism/kmax")
-    fun calculateKmax(@Body data: RawDataModel): Call<RawDataModel?>?
+    fun calculateKmax(@Body data: RawDataModel): Call<KMaxResultModel?>?
+
+    @Headers(
+        "Accept: application/json"
+    )
+    @POST("summary")
+    fun get_summary(@Body data: RawDataModel): Call<SummaryModel?>?
 
 }

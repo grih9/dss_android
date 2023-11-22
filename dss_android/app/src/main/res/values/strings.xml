@@ -13,7 +13,7 @@
     <string name="k_max_result">K-max mechanism</string>
     <string name="competitive_result">Tournament mechanism</string>
     <string name="dominante_result">Dominance mechanism</string>
-    <string name="blocking_result">Lock</string>
+    <string name="blocking_result">Lock mechanism</string>
     <string name="add_matrix_row">Enter values</string>
     <string name="matrix_row">Matrix row</string>
     <string name="back_button">Return</string>

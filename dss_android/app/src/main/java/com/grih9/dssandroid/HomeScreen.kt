@@ -47,6 +47,21 @@ fun DSSAndroidApp2() {
 fun HomeScreen(modifier: Modifier = Modifier) {
     var screen by remember { mutableStateOf("NewDssScreen") }
     val ctx = LocalContext.current
+    val variants = remember {
+        mutableStateOf(listOf<String>())
+    }
+    val preferences = remember {
+        mutableStateOf(listOf<String>())
+    }
+    val matrix = remember {
+        mutableStateOf(listOf(listOf<Float>()))
+    }
+    val weightCoefficients = remember {
+        mutableStateOf(listOf<Float>())
+    }
+    val choiceFunction = remember {
+        mutableStateOf(listOf<Boolean>())
+    }
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -79,17 +94,27 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 //        var res by remember { mutableStateOf(InfoResultModel("")) }
         when (screen) {
             "NewDssScreen" -> NewDssScreen(
+                variants = variants,
+                preferences = preferences,
+                matrix = matrix,
+                weightCoefficients = weightCoefficients,
+                choiceFunction = choiceFunction,
                 screenNameChange = {
-                    val data2 = sendHelpRequest(ctx)
+                    sendHelpRequest(ctx)
                     screen = "ResultsScreen"
-                    println(data2)
                 },
                 modifier = modifier.padding(innerPadding)
             )
 
             "ResultsScreen" -> ResultsScreen(
+                variants = variants,
+                preferences = preferences,
+                matrix = matrix,
+                weightCoefficients = weightCoefficients,
+                choiceFunction = choiceFunction,
                 screenNameChange = {
-                    screen = "NewDssScreen" },
+                    screen = "NewDssScreen"
+                },
                 modifier = modifier.padding(innerPadding)
             )
 

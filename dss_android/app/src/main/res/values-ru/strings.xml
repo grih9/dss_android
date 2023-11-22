@@ -13,9 +13,9 @@
     <string name="common_result">Общие</string>
     <string name="k_max_result">K-max механизм</string>
     <string name="competitive_result">Турнирный механизм</string>
-    <string name="dominante_result">Доминирующий механизм</string>
-    <string name="blocking_result">Блокирующий механизм</string>
-    <string name="add_matrix_row">Ввести значения</string>
+    <string name="dominante_result">Механизм доминирования</string>
+    <string name="blocking_result">Механизм блокировки</string>
+    <string name="add_matrix_row">Добавить строку</string>
     <string name="matrix_row">Строка матрицы</string>
     <string name="back_button">Назад</string>
 </resources>
