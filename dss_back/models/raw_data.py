@@ -27,11 +27,11 @@ class RawDataframe(BaseModel):
             raise ValueError(f'Number of preferences doesn`t match number of weight coefficients')
         if len(self.choice_function) != len(self.preferences):
             raise ValueError(f'Number of preferences doesn`t match number of choice functions')
-        if len(self.matrix) != len(self.variants):
-            raise ValueError(f'Invalid size {len(self.matrix)} rows. {len(self.variants)} expected')
+        if len(self.matrix) != len(self.preferences):
+            raise ValueError(f'Invalid size {len(self.matrix)} rows. {len(self.preferences)} expected')
         for idx, row in enumerate(self.matrix):
-            if len(row) != len(self.preferences):
-                raise ValueError(f'Invalid size of {idx} row: {len(row)} columns. {len(self.preferences)} expected')
+            if len(row) != len(self.variants):
+                raise ValueError(f'Invalid size of {idx} row: {len(row)} columns. {len(self.variants)} expected')
         return self
 
 
