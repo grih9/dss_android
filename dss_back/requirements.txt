@@ -1,0 +1,4 @@
+fastapi==0.104.0
+prettytable==3.9.0
+uvicorn[standard]
+pydantic~=2.4.2
